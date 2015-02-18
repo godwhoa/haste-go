@@ -22,7 +22,7 @@ $ cat <file> | haste | xclip
 ```
 
 TODO:<br/>
-Take filename as an argument 
+~~Take filename as an argument~~ 
 
 
 

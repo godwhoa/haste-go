@@ -66,7 +66,13 @@ func main() {
 
 	}
 	if len(os.Args) > 1 {
-		post(os.Args[1])
+		if Exist(os.Args[1]) {
+			body, err := ioutil.ReadFile(os.Args[1])
+			perror(err)
+			post(string(body))
+			return
+		}
+		fmt.Println("File doesn't exist.")
 		return
 	}
 	if len(os.Args) < 2 {
@@ -74,6 +80,15 @@ func main() {
 		return
 	}
 
+}
+
+//File exists
+func Exist(file string) bool {
+	if _, err := os.Stat(file); os.IsNotExist(err) {
+		return false
+	}
+
+	return true
 }
 
 //Error handling
