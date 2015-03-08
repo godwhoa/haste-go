@@ -2,7 +2,6 @@ package main
 
 import (
 	"bytes"
-	"crypto/tls"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -17,7 +16,7 @@ post client
 https://github.com/tenntenn/golang-samples/blob/master/http/post/client.go
 json parsing
 https://gobyexample.com/json
-for bad cert hastebin has
+for bad cert hastebin has update: now using http instead of https herp derp
 https://stackoverflow.com/questions/12122159/golang-how-to-do-a-https-request-with-bad-certificate
 And stdin
 https://www.socketloop.com/tutorials/golang-check-if-os-stdin-input-data-is-piped-or-from-terminal
@@ -27,13 +26,8 @@ type Haste struct {
 }
 
 func post(body string) {
-	//Dealing with hastebin's bad ssl cert.
-	tr := &http.Transport{
-		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
-	}
-	client := &http.Client{Transport: tr}
 
-	r, err := client.Post("https://hastebin.com/documents", "text", bytes.NewBuffer([]byte(body)))
+	r, err := http.Post("http://hastebin.com/documents", "text", bytes.NewBuffer([]byte(body)))
 	perror(err)
 	response, err := ioutil.ReadAll(r.Body)
 	perror(err)
